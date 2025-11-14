@@ -1,1 +1,52 @@
-<p>clientes works!</p>
+<div class="card">
+  <h2>Clientes potenciales</h2>
+
+ 
+    <hr>
+
+  <!-- Mensaje de error -->
+  <p-message *ngIf="error" severity="error" [text]="error"></p-message>
+
+  <!-- Loading -->
+  <div class="p-d-flex p-jc-center p-my-4" *ngIf="cargando">
+    <p-progressSpinner styleClass="w-3rem h-3rem"></p-progressSpinner>
+  </div>
+
+  <!-- Tabla de clientes -->
+  <p-table *ngIf="!cargando && clientes?.length"
+           [value]="clientes"
+           [paginator]="true"
+           [rows]="5"
+           [responsiveLayout]="'scroll'">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Celular</th>
+        <th>Potencial</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-cli>
+      <tr>
+        <td>{{ cli.idCliente }}</td>
+        <td>{{ cli.nombres }}</td>
+        <td>{{ cli.correo }}</td>
+        <td>{{ cli.celular }}</td>
+        <td>
+          <p-tag
+            [value]="cli.potencial ? 'Sí' : 'No'"
+            [severity]="cli.potencial ? 'info' : 'secondary'">
+          </p-tag>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No se encontraron clientes potenciales.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

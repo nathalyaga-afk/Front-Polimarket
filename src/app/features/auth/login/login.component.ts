@@ -19,38 +19,7 @@ import { MessagesModule } from 'primeng/messages';
     :host { display:flex; align-items:center; justify-content:center; min-height:80dvh; }
     .login-card { width: 100%; max-width: 420px; }
   `],
-  template: `
-    <p-card class="login-card">
-      <ng-template pTemplate="header">
-        <h2 class="m-0">Iniciar sesión</h2>
-      </ng-template>
-
-      <form [formGroup]="form" (ngSubmit)="submit()">
-        <div class="field mb-3">
-          <label class="block mb-1">Usuario</label>
-          <input pInputText formControlName="username" autocomplete="username" class="w-full">
-        </div>
-
-        <div class="field mb-3">
-          <label class="block mb-1">Contraseña</label>
-          <input pPassword formControlName="password" [feedback]="false" toggleMask="true" class="w-full"/>
-        </div>
-
-        <p-messages
-  *ngIf="error()"
-  severity="error"
-  [value]="[{ detail: (error() ?? '') }]"
-></p-messages>
-
-
-        <button pButton type="submit" label="Entrar" class="w-full" [disabled]="form.invalid || loading()"></button>
-
-        <div class="mt-3 text-600 text-sm">
-          Usuarios de prueba: <code>rrhh</code>, <code>vendedor</code>, <code>novend</code>. Cualquier contraseña.
-        </div>
-      </form>
-    </p-card>
-  `
+  templateUrl: './login.component.html'
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);

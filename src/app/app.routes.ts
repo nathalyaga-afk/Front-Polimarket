@@ -12,7 +12,6 @@ export const routes: Routes = [
     // Rutas protegidas (con Navbar y Sidebar)
     {
         path: '',
-        component: AppShellComponent, // Este incluye el menú y el sidebar
         children: [
             { path: '', loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent) },
 
