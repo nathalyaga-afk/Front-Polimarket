@@ -7,24 +7,28 @@ import { Vendedor } from '../../models/vendedor.interface';
   providedIn: 'root'
 })
 export class RrhhService {
-  // Ajusta la URL base según tu backend real
-  private readonly baseUrl = 'http://localhost:8082/api/rrhh/vendedores';
+  // Backend de vendedores (según los cURL proporcionados)
+  private readonly baseUrl = 'http://localhost:8081';
 
   constructor(private http: HttpClient) {}
 
   obtenerVendedores(): Observable<Vendedor[]> {
-    return this.http.get<Vendedor[]>(this.baseUrl);
+    return this.http.get<Vendedor[]>(`${this.baseUrl}/vendedores`);
   }
 
-  consultarEstado(idVendedor: number): Observable<boolean> {
-    return this.http.get<boolean>(`${this.baseUrl}/${idVendedor}/estado`);
+  consultarEstado(idVendedor: number): Observable<{ estado: boolean }> {
+    return this.http.get<{ estado: boolean }>(`${this.baseUrl}/vendedores/${idVendedor}/estado`);
   }
 
   autorizarVendedor(idVendedor: number): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/${idVendedor}/autorizar`, {});
+    return this.http.post<void>(`${this.baseUrl}/vendedores/${idVendedor}/estado`, { estado: true });
   }
 
   revocarVendedor(idVendedor: number): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/${idVendedor}/revocar`, {});
+    return this.http.post<void>(`${this.baseUrl}/vendedores/${idVendedor}/estado`, { estado: false });
+  }
+
+  obtenerHistorial(idVendedor: number) {
+    return this.http.get(`${this.baseUrl}/vendedores/${idVendedor}/historial`);
   }
 }

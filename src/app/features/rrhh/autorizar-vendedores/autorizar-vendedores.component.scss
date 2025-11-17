@@ -1,0 +1,13 @@
+/* Fila de acciones: botones en línea con espacio y ancho auto */
+.btn-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-row button {
+  flex: 0 0 auto;
+  min-width: 140px;
+  width: auto;
+}

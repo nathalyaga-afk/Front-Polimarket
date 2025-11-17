@@ -47,7 +47,7 @@ export class AutorizarVendedoresComponent {
 
     this.rrhhService.obtenerVendedores().subscribe({
       next: (data) => {
-        this.vendedores = data;
+        this.vendedores = [...data].sort((a, b) => a.idVendedor - b.idVendedor);
         this.cargando = false;
       },
       error: () => {
@@ -66,9 +66,9 @@ export class AutorizarVendedoresComponent {
     this.cargando = true;
 
     this.rrhhService.consultarEstado(this.idBusqueda!).subscribe({
-      next: (estado) => {
-        this.estadoActual = estado;
-        this.mensaje = `El vendedor ${this.idBusqueda} está ${estado ? 'AUTORIZADO' : 'NO AUTORIZADO'}.`;
+      next: (resp) => {
+        this.estadoActual = resp.estado;
+        this.mensaje = `El vendedor ${this.idBusqueda} está ${resp.estado ? 'AUTORIZADO' : 'NO AUTORIZADO'}.`;
         this.cargando = false;
       },
       error: () => {
@@ -105,6 +105,7 @@ export class AutorizarVendedoresComponent {
     accion$.subscribe({
       next: () => {
         this.mensaje = `Vendedor ${this.idBusqueda} ${tipo === 'autorizar' ? 'AUTORIZADO' : 'REVOCADO'} correctamente.`;
+        this.estadoActual = tipo === 'autorizar';
         this.cargando = false;
         this.cargarVendedores();
       },

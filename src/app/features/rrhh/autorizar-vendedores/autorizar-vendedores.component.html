@@ -12,7 +12,7 @@
     </div>
     <div class="p-field p-col-12 p-md-8">
       <label class="p-d-block"><strong>Acciones</strong></label>
-      <div class="p-d-flex p-flex-wrap p-ai-center p-gap-2">
+      <div class="btn-row">
         <button pButton type="button" label="Consultar estado" icon="pi pi-search" (click)="consultarEstado()" [disabled]="cargando"></button>
         <button pButton type="button" label="Autorizar" icon="pi pi-check" class="p-button-success" (click)="autorizar()" [disabled]="cargando"></button>
         <button pButton type="button" label="Revocar" icon="pi pi-ban" class="p-button-danger" (click)="revocar()" [disabled]="cargando"></button>
@@ -40,23 +40,25 @@
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
-        <th>Nombre</th>
-        <th>Documento</th>
+        <th>ID Persona</th>
         <th>Salario</th>
         <th>Estado</th>
+        <th>Fecha autorización</th>
+        <th>Fecha revocación</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-v>
       <tr>
         <td>{{ v.idVendedor }}</td>
-        <td>{{ v.nombreCompleto }}</td>
-        <td>{{ v.tipoDocumento }} {{ v.numeroDocumento }}</td>
-        <td>{{ v.salario | currency:'COP':'symbol' }}</td>
+        <td>{{ v.idPersona }}</td>
+        <td>{{ v.sueldo | currency:'COP':'symbol' }}</td>
         <td>
-          <p-tag [value]="v.autorizado ? 'Autorizado' : 'No autorizado'"
-                 [severity]="v.autorizado ? 'success' : 'danger'">
+          <p-tag [value]="v.estadoAutorizado ? 'Autorizado' : 'No autorizado'"
+                 [severity]="v.estadoAutorizado ? 'success' : 'danger'">
           </p-tag>
         </td>
+        <td>{{ v.fechaAutorizacion ? (v.fechaAutorizacion | date:'short') : '-' }}</td>
+        <td>{{ v.fechaRevocacion && v.fechaRevocacion !== '0001-01-01T00:00:00Z' ? (v.fechaRevocacion | date:'short') : '-' }}</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">

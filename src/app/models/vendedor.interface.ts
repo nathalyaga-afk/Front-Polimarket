@@ -1,13 +1,14 @@
 export interface Vendedor {
   idVendedor: number;
   idPersona: number;
-  nombreCompleto: string;
-  tipoDocumento: string;
-  numeroDocumento: string;
-  salario: number;
-  autorizado: boolean;
+  sueldo: number;
+  estadoAutorizado: boolean;
   fechaAutorizacion?: string;
-  fechaRevocada?: string;
+  fechaRevocacion?: string;
+  // Campos opcionales (si el backend los expone en el futuro)
+  nombreCompleto?: string;
+  tipoDocumento?: string;
+  numeroDocumento?: string;
 }
 
 export interface HistorialAutorizacion {
