@@ -1,1 +1,68 @@
-<p>autorizar-vendedores works!</p>
+<div class="card">
+  <h2>Autorización de Vendedores</h2>
+
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-12 p-md-4">
+      <label for="idVendedor"><strong>ID vendedor</strong></label>
+      <input id="idVendedor"
+             type="number"
+             pInputText
+             [(ngModel)]="idBusqueda"
+             placeholder="Ej: 101">
+    </div>
+    <div class="p-field p-col-12 p-md-8">
+      <label class="p-d-block"><strong>Acciones</strong></label>
+      <div class="p-d-flex p-flex-wrap p-ai-center p-gap-2">
+        <button pButton type="button" label="Consultar estado" icon="pi pi-search" (click)="consultarEstado()" [disabled]="cargando"></button>
+        <button pButton type="button" label="Autorizar" icon="pi pi-check" class="p-button-success" (click)="autorizar()" [disabled]="cargando"></button>
+        <button pButton type="button" label="Revocar" icon="pi pi-ban" class="p-button-danger" (click)="revocar()" [disabled]="cargando"></button>
+      </div>
+    </div>
+  </div>
+
+  <p-message *ngIf="mensaje" severity="success" [text]="mensaje"></p-message>
+  <p-message *ngIf="error" severity="error" [text]="error"></p-message>
+
+  <div class="p-d-flex p-jc-center p-my-3" *ngIf="cargando">
+    <p-progressSpinner styleClass="w-3rem h-3rem"></p-progressSpinner>
+  </div>
+
+  <div class="p-mt-3" *ngIf="estadoActual !== undefined">
+    <p-tag [value]="estadoActual ? 'AUTORIZADO' : 'NO AUTORIZADO'"
+           [severity]="estadoActual ? 'success' : 'danger'">
+    </p-tag>
+  </div>
+
+  <hr>
+
+  <h3>Vendedores</h3>
+  <p-table [value]="vendedores" *ngIf="vendedores?.length">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Documento</th>
+        <th>Salario</th>
+        <th>Estado</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-v>
+      <tr>
+        <td>{{ v.idVendedor }}</td>
+        <td>{{ v.nombreCompleto }}</td>
+        <td>{{ v.tipoDocumento }} {{ v.numeroDocumento }}</td>
+        <td>{{ v.salario | currency:'COP':'symbol' }}</td>
+        <td>
+          <p-tag [value]="v.autorizado ? 'Autorizado' : 'No autorizado'"
+                 [severity]="v.autorizado ? 'success' : 'danger'">
+          </p-tag>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No hay vendedores para mostrar.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
