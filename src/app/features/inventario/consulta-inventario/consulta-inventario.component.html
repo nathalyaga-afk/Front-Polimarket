@@ -1,1 +1,74 @@
-<p>consulta-inventario works!</p>
+<div class="card">
+  <h2>Consulta de stock</h2>
+
+  <div class="p-d-flex p-ai-center p-mb-3">
+    <label for="estado" class="p-mr-2"><strong>Estado</strong></label>
+    <p-dropdown
+      id="estado"
+      [options]="estadoOptions"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Seleccione estado"
+      [(ngModel)]="filtroEstado"
+      styleClass="w-full md:w-15rem">
+    </p-dropdown>
+  </div>
+
+  <hr>
+
+  <p-message *ngIf="error" severity="error" [text]="error"></p-message>
+
+  <div class="p-d-flex p-jc-center p-my-4" *ngIf="cargando">
+    <p-progressSpinner styleClass="w-3rem h-3rem"></p-progressSpinner>
+  </div>
+
+  <p-table *ngIf="!cargando && inventarioFiltrado?.length"
+           [value]="inventarioFiltrado"
+           [paginator]="true"
+           [rows]="5"
+           [responsiveLayout]="'scroll'">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Unidad</th>
+        <th>Stock disponible</th>
+        <th>Stock actual</th>        
+        <th>Stock reservado</th>     
+        <th>Stock mínimo</th>        
+        <th>Última actualización</th>
+        <th>Estado</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-prod>
+    <tr>
+       <td>{{ prod.idProducto }}</td>
+       <td>{{ prod.nombreProducto }}</td>
+       <td>{{ prod.descripcion }}</td>
+       <td>{{ prod.precio | currency:'COP':'symbol':'1.0-2' }}</td>
+       <td>{{ prod.unidadMedida }}</td>
+       <td>{{ prod.stockDisponible }}</td>
+       <td>{{ prod.stockActual }}</td>       
+       <td>{{ prod.stockReservado }}</td>   
+       <td>{{ prod.stockMinimo }}</td>      
+       <td>{{ prod.fechaActualizacion | date:'short' }}</td> 
+      <td>
+        <p-tag
+          [value]="prod.estadoProducto ? 'Disponible' : 'No disponible'"
+          [severity]="prod.estadoProducto ? 'success' : 'danger'">
+        </p-tag>
+      </td>
+    </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">No se encontraron productos en inventario.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
